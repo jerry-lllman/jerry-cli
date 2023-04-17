@@ -1,0 +1,23 @@
+{
+  "name": "@jerrytestgroup/init",
+  "version": "0.0.0",
+  "description": "init command",
+  "author": "jerry-lllman <jerry_lllman@163.com>",
+  "homepage": "",
+  "license": "ISC",
+  "type": "module",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "node ./__tests__/init.test.js"
+  },
+  "dependencies": {
+    "@jerrytestgroup/command": "^0.0.0"
+  }
+}
