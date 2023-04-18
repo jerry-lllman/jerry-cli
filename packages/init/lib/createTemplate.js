@@ -58,7 +58,7 @@ export default async function createTemplate(name, options) {
 	// 获取创建的类型
 	const addType = await getAddType()
 	log.verbose('addType', addType)
-	
+
 	if (addType === ADD_TYPE_PROJECT) {
 		const addName = await getAddName()
 		log.verbose('addType', addName)
@@ -70,7 +70,10 @@ export default async function createTemplate(name, options) {
 		log.verbose('selectedTemplate', selectedTemplate)
 
 		// 获取最新版本号
-		getLatestVersion(selectedTemplate.npmName)
+		const latestVersion = await getLatestVersion(selectedTemplate.npmName)
+		log.verbose('latestVersion', latestVersion)
+		selectedTemplate.version = latestVersion
+		
 		return {
 			type: addType,
 			name: addName,
