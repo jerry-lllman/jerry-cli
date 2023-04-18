@@ -7,4 +7,6 @@ if (isDebug()) {
 	log.level = 'info'
 }
 
+log.addLevel('success', 2000, { fg: 'green' })
+
 export default log

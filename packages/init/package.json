@@ -18,6 +18,9 @@
     "test": "node ./__tests__/init.test.js"
   },
   "dependencies": {
-    "@jerrytestgroup/command": "^0.0.0"
+    "@jerrytestgroup/command": "^0.0.0",
+    "fs-extra": "^11.1.1",
+    "ora": "^6.3.0",
+    "path-exists": "^5.0.0"
   }
 }

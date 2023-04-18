@@ -1,3 +1,5 @@
+import path from 'node:path'
+import { homedir } from 'node:os'
 import { getLatestVersion, log, makeInput, makeList } from "@jerrytestgroup/utils"
 
 const ADD_TYPE_PROJECT = 'project'
@@ -29,6 +31,7 @@ const ADD_TYPES = [
 	}
 ]
 
+const TEMP_HOME = '.cli-jerry'
 
 function getAddType() {
 	return makeList({
@@ -42,7 +45,14 @@ function getAddName() {
 	return makeInput({
 		message: '请输入项目名称',
 		defaultValue: '',
-		require: true
+		require: true,
+		validate(value) {
+			if (value.length) {
+				return true
+			} else {
+				return '请输入项目名称'
+			}
+		}
 	})
 }
 
@@ -52,6 +62,11 @@ function getAddTemplate() {
 		choices: ADD_TEMPLATES,
 		message: '请选择项目模版'
 	})
+}
+
+
+function makeTargetPath() {
+	return path.resolve(`${homedir()}/${TEMP_HOME}`, 'addTemplate')
 }
 
 export default async function createTemplate(name, options) {
@@ -73,11 +88,14 @@ export default async function createTemplate(name, options) {
 		const latestVersion = await getLatestVersion(selectedTemplate.npmName)
 		log.verbose('latestVersion', latestVersion)
 		selectedTemplate.version = latestVersion
-		
+
+		const targetPath = makeTargetPath()
+
 		return {
 			type: addType,
 			name: addName,
-			template: selectedTemplate
+			template: selectedTemplate,
+			targetPath
 		}
 	}
 

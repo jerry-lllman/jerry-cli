@@ -1,14 +1,4 @@
-import { isDebug, log } from "@jerrytestgroup/utils"
-
-function printErrorLog(type) {
-	return (e) => {
-		if (isDebug()) {
-			log.error(type, e)
-		} else {
-			log.error(type, e.message)
-		}
-	}
-}
+import { printErrorLog } from "@jerrytestgroup/utils"
 
 process.on('uncaughtException', printErrorLog('error'))
 
