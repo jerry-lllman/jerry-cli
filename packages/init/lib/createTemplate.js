@@ -91,6 +91,8 @@ export default async function createTemplate(name, options) {
 
 		const targetPath = makeTargetPath()
 
+		// TODO: 获取使用何种方式进行 npm yarn pnpm
+
 		return {
 			type: addType,
 			name: addName,
