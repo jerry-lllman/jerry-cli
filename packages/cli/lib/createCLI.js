@@ -34,6 +34,16 @@ export default function createCLI() {
 		.version(pkg.version)
 		.option('-d, --debug', '是否开启调试模式', false)
 		.hook('preAction', preAction)
+	
+	program.on('option:debug', () => {
+		if (program.opts().debug) {
+			log.verbose('debug', 'launch debug mode')
+		}
+	})
+
+	program.on('command:*', obj => {
+		log.error('未知的命令：' + obj[0])
+	})
 
 	return program
 }
