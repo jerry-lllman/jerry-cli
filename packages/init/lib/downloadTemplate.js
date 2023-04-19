@@ -35,10 +35,9 @@ export default async function downloadTemplate(selectedTemplate) {
 	const spinner = ora('正在下载模版...').start()
 	try {
 		await downloadAddTemplate(targetPath, template)
-		spinner.stop()
-		log.success('模版下载成功！')
+		spinner.succeed('模版下载成功！')
 	} catch (error) {
-		spinner.stop()
+		spinner.fail('模版下载失败！')
 		printErrorLog()(error)
 	}
 }

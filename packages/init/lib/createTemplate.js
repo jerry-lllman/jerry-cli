@@ -70,19 +70,42 @@ function makeTargetPath() {
 }
 
 export default async function createTemplate(name, options) {
-	// 获取创建的类型
-	const addType = await getAddType()
+
+	const { type, template } = options
+
+	let addType // 创建项目类型
+	let addName // 创建项目名称
+	let selectedTemplate // 创建项目模版
+	if (type) {
+		addType = type
+	} else {
+		// 获取创建的类型
+		addType = await getAddType()
+	}
+
 	log.verbose('addType', addType)
 
 	if (addType === ADD_TYPE_PROJECT) {
-		const addName = await getAddName()
-		log.verbose('addType', addName)
+		if (name) {
+			addName = name
+		} else {
+			addName = await getAddName()
+		}
+		log.verbose('addName', addName)
 
-		const addTemplate = await getAddTemplate()
-		log.verbose('addType', addTemplate)
+		if (template) {
+			selectedTemplate = ADD_TEMPLATES.find(tp => tp.value === template)
+			if (!selectedTemplate) {
+				throw new Error(`项目模版 ${template} 不存在`)
+			}
+		} else {
+			const addTemplate = await getAddTemplate()
+			log.verbose('addTemplate', addTemplate)
+			selectedTemplate = ADD_TEMPLATES.find(template => template.value === addTemplate)
+		}
 
-		const selectedTemplate = ADD_TEMPLATES.find(template => template.value === addTemplate)
 		log.verbose('selectedTemplate', selectedTemplate)
+
 
 		// 获取最新版本号
 		const latestVersion = await getLatestVersion(selectedTemplate.npmName)
@@ -99,7 +122,8 @@ export default async function createTemplate(name, options) {
 			template: selectedTemplate,
 			targetPath
 		}
+	} else {
+		throw new Error(`类型 ${addType} 不支持`)
 	}
-
 
 }

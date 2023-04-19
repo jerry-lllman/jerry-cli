@@ -7,6 +7,8 @@ if (isDebug()) {
 	log.level = 'info'
 }
 
-log.addLevel('success', 2000, { fg: 'green' })
+log.heading = 'cli-jerry'
+
+log.addLevel('success', 2000, { fg: 'green', bold: true })
 
 export default log
