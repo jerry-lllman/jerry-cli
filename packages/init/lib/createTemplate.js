@@ -10,7 +10,8 @@ const ADD_TEMPLATES = [
 		name: 'react 项目模版',
 		value: 'template-react',
 		npmName: '@jerry.com/template-react',
-		version: '1.0.0'
+		version: '1.0.0',
+		ignore: ['**/node_modules/**']
 	},
 	{
 		name: 'vue 项目模版',

@@ -21,16 +21,23 @@ function copyFile(targetPath, template, installDir) {
 	spinner.succeed('模版拷贝成功')
 }
 
-async function ejsRender(installDir) {
+async function ejsRender(installDir, name, template) {
+	log.verbose('ejsRender', installDir, template)
+	const { ignore } = template
+	const ejsData = {
+		data: {
+			name
+		}
+	}
 	try {
-		const files = await glob('**', { cwd: installDir, nodir: true, ignore: ["**/node_modules/**"] })
+		const files = await glob('**', {
+			cwd: installDir,
+			nodir: true,
+			ignore: ignore
+		})
 		files.map(file => {
 			const filePath = path.join(installDir, file)
-			ejs.renderFile(filePath, {
-				data: {
-					name: 'react-template'
-				}
-			}).then(result => {
+			ejs.renderFile(filePath, ejsData).then(result => {
 				fse.writeFileSync(filePath, result)
 			}).catch(error => {
 				printErrorLog()(error)
@@ -63,5 +70,5 @@ export default async function installTemplate(selectedTemplate, options) {
 	}
 	copyFile(targetPath, template, installDir)
 
-	ejsRender(installDir)
+	ejsRender(installDir, name, template)
 }
