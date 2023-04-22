@@ -2,13 +2,17 @@ import path from 'node:path'
 
 import fse from 'fs-extra'
 import { pathExistsSync } from 'path-exists'
-import { log, printErrorLog } from '@jerrytestgroup/utils'
+import { log, printErrorLog, makeList, makeInput } from '@jerrytestgroup/utils'
 import ora from 'ora'
 import { glob } from 'glob'
 import ejs from 'ejs'
 
 function getCacheFilePath(targetPath, template) {
 	return path.resolve(targetPath, 'node_modules', template.npmName, 'template')
+}
+
+function getPluginFilePath(targetPath, template) {
+	return path.resolve(targetPath, 'node_modules', template.npmName, 'plugins', 'index.js')
 }
 
 function copyFile(targetPath, template, installDir) {
@@ -21,12 +25,26 @@ function copyFile(targetPath, template, installDir) {
 	spinner.succeed('模版拷贝成功')
 }
 
-async function ejsRender(installDir, name, template) {
+async function ejsRender(targetPath, installDir, name, template) {
 	log.verbose('ejsRender', installDir, template)
 	const { ignore } = template
+
+	// 执行插件
+	let data = {}
+	const pluginPath = getPluginFilePath(targetPath, template)
+	if (pathExistsSync(pluginPath)) {
+		const pluginFn = (await import(pluginPath)).default
+		const api = {
+			makeInput,
+			makeList
+		}
+		data = await pluginFn(api)
+	}
+
 	const ejsData = {
 		data: {
-			name
+			name,
+			...data
 		}
 	}
 	try {
@@ -70,5 +88,5 @@ export default async function installTemplate(selectedTemplate, options) {
 	}
 	copyFile(targetPath, template, installDir)
 
-	ejsRender(installDir, name, template)
+	ejsRender(targetPath, installDir, name, template)
 }
