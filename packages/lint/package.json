@@ -1,0 +1,33 @@
+{
+  "name": "@jerrytestgroup/lint",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "jerry-lllman <jerry_lllman@163.com>",
+  "homepage": "https://github.com/jerry-lllman/jerry-cli#readme",
+  "license": "ISC",
+  "type": "module",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerry-lllman/jerry-cli.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/lint.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/jerry-lllman/jerry-cli/issues"
+  },
+  "dependencies": {
+    "@jerrytestgroup/command": "^0.0.0",
+    "@jerrytestgroup/utils": "^0.0.0",
+    "eslint": "^8.39.0",
+    "execa": "^7.1.1"
+  }
+}

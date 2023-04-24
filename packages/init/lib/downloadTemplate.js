@@ -4,7 +4,7 @@ import ora from 'ora'
 import {execa} from 'execa'
 import fse from 'fs-extra'
 import { pathExistsSync } from 'path-exists'
-import { log, printErrorLog } from '@jerrytestgroup/utils'
+import { log, printErrorLog, installDependencies } from '@jerrytestgroup/utils'
 
 function getCacheDir(targetPath) {
 	return path.resolve(targetPath, 'node_modules')
@@ -20,13 +20,12 @@ function makeCacheDir(targetPath) {
 async function downloadAddTemplate(targetPath, template) {
 	const { npmName, version } = template
 
-	const installCommand = 'npm'
-	const installArgs = ['install', `${npmName}@${version}`]
+	const installArgs = `${npmName}@${version}`
 	const cwd = getCacheDir(targetPath)
 	log.verbose('installArgs', installArgs)
 	log.verbose('cwd', cwd)
 
-	await execa(installCommand, installArgs, { cwd })
+	await installDependencies(`${npmName}@${version}`, { cwd })
 }
 
 export default async function downloadTemplate(selectedTemplate) {

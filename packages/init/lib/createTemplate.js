@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { homedir } from 'node:os'
-import { getLatestVersion, log, makeInput, makeList } from "@jerrytestgroup/utils"
+import { getLatestVersion, getRunScriptType, log, makeInput, makeList } from "@jerrytestgroup/utils"
 
 const ADD_TYPE_PROJECT = 'project'
 const ADD_TYPE_PAGE = 'page'
@@ -77,6 +77,8 @@ export default async function createTemplate(name, options) {
 	let addType // 创建项目类型
 	let addName // 创建项目名称
 	let selectedTemplate // 创建项目模版
+	let runCommandType // 运行脚本方式
+
 	if (type) {
 		addType = type
 	} else {
@@ -94,6 +96,10 @@ export default async function createTemplate(name, options) {
 		}
 		log.verbose('addName', addName)
 
+		// 获取使用何种方式进行 npm yarn pnpm
+		runCommandType = await getRunScriptType()
+		log.verbose('runCommandType', runCommandType)
+
 		if (template) {
 			selectedTemplate = ADD_TEMPLATES.find(tp => tp.value === template)
 			if (!selectedTemplate) {
@@ -107,7 +113,6 @@ export default async function createTemplate(name, options) {
 
 		log.verbose('selectedTemplate', selectedTemplate)
 
-
 		// 获取最新版本号
 		const latestVersion = await getLatestVersion(selectedTemplate.npmName)
 		log.verbose('latestVersion', latestVersion)
@@ -115,13 +120,12 @@ export default async function createTemplate(name, options) {
 
 		const targetPath = makeTargetPath()
 
-		// TODO: 获取使用何种方式进行 npm yarn pnpm
-
 		return {
 			type: addType,
 			name: addName,
+			targetPath,
+			runCommandType,
 			template: selectedTemplate,
-			targetPath
 		}
 	} else {
 		throw new Error(`类型 ${addType} 不支持`)

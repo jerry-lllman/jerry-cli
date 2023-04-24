@@ -1,5 +1,5 @@
 import Command from '@jerrytestgroup/command'
-import { log } from '@jerrytestgroup/utils'
+import { log, setRunCommandType } from '@jerrytestgroup/utils'
 
 import createTemplate from './createTemplate.js'
 import downloadTemplate from './downloadTemplate.js'
@@ -26,6 +26,7 @@ class InitCommand extends Command {
     log.verbose('init', name, options)
     // 1. 选择项目模版，生成项目信息
     const selectedTemplate = await createTemplate(name, options)
+    setRunCommandType(selectedTemplate.runScriptType)
     log.verbose('template', selectedTemplate)
     // 2. 下载项目模版至缓存目录
     await downloadTemplate(selectedTemplate)
