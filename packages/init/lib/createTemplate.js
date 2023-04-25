@@ -32,7 +32,7 @@ const ADD_TYPES = [
 	}
 ]
 
-const TEMP_HOME = '.cli-jerry'
+const TEMP_HOME = '.luna'
 
 function getAddType() {
 	return makeList({

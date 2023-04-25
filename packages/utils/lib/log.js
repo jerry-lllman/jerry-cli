@@ -7,7 +7,7 @@ if (isDebug()) {
 	log.level = 'info'
 }
 
-log.heading = 'cli-jerry'
+log.heading = 'luna'
 
 log.addLevel('success', 2000, { fg: 'green', bold: true })
 

@@ -8,7 +8,7 @@
   "type": "module",
   "main": "bin/index.js",
   "bin": {
-    "jerry-cli": "bin/cli.js"
+    "luna": "bin/cli.js"
   },
   "directories": {
     "lib": "lib",

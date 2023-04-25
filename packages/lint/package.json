@@ -28,6 +28,6 @@
     "@jerrytestgroup/command": "^0.0.0",
     "@jerrytestgroup/utils": "^0.0.0",
     "eslint": "^8.39.0",
-    "execa": "^7.1.1"
+    "fs-extra": "^11.1.1"
   }
 }
