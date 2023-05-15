@@ -40,6 +40,7 @@ function installPackages(installType) {
 }
 
 export function setRunCommandType(type) {
+	log.verbose('setRunCommandType', type)
 	runCommandType = type
 }
 

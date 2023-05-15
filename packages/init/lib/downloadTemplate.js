@@ -24,7 +24,8 @@ async function downloadAddTemplate(targetPath, template) {
 	const cwd = getCacheDir(targetPath)
 	log.verbose('installArgs', installArgs)
 	log.verbose('cwd', cwd)
-
+	// 先看看是否已经下载过，如果已经下载过就直接 return
+	
 	await installDependencies(`${npmName}@${version}`, { cwd })
 }
 
