@@ -48,12 +48,14 @@ async function ejsRender(targetPath, installDir, name, template) {
 		}
 	}
 	try {
+		// 通过 glob 匹配规则获取文件
 		const files = await glob('**', {
 			cwd: installDir,
 			nodir: true,
 			ignore: ignore
 		})
-		files.map(file => {
+
+		files.forEach(file => {
 			const filePath = path.join(installDir, file)
 			ejs.renderFile(filePath, ejsData).then(result => {
 				fse.writeFileSync(filePath, result)
@@ -72,7 +74,7 @@ export default async function installTemplate(selectedTemplate, options) {
 	const { targetPath, name, template } = selectedTemplate
 	const rootDir = process.cwd()
 
-	// ensureDirSync 保证路径存在
+	// ensureDirSync 保证路径存在，如果不存在，fse.ensureDirSync 会创建
 	fse.ensureDirSync(targetPath)
 	const installDir = path.resolve(`${rootDir}/${name}`)
 
@@ -88,5 +90,5 @@ export default async function installTemplate(selectedTemplate, options) {
 	}
 	copyFile(targetPath, template, installDir)
 
-	ejsRender(targetPath, installDir, name, template)
+	await ejsRender(targetPath, installDir, name, template)
 }

@@ -33,6 +33,7 @@ class InitCommand extends Command {
     await downloadTemplate(selectedTemplate)
     // 3. 安装项目模版至项目目录
     await installTemplate(selectedTemplate, options)
+    // TODO: 自动安装依赖，启动项目
   }
 
   preAction() {
